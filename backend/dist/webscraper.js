@@ -10,10 +10,14 @@ const puppeteer_extra_plugin_stealth_1 = __importDefault(require("puppeteer-extr
 const generative_ai_1 = require("@google/generative-ai");
 const prompt_1 = require("./prompt");
 const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
+if (process.env.NODE_ENV !== "production") {
+    dotenv_1.default.config();
+}
 const GEMINI_API = process.env.GEMINI_API || "";
 puppeteer_extra_1.default.use((0, puppeteer_extra_plugin_stealth_1.default)());
 async function getReviewSummary(link) {
+    console.log(process.env.GEMINI_API);
+    console.log(GEMINI_API);
     const browser = await puppeteer_extra_1.default.launch({ headless: false });
     const page = await browser.newPage();
     let reviewCount = 0;
@@ -55,7 +59,7 @@ async function getReviewSummary(link) {
     }
 }
 async function aiCall(reviews) {
-    const genAI = new generative_ai_1.GoogleGenerativeAI("AIzaSyBRtWxwfTSS_iPAa1mb7ZsP1dsLi0iUDug");
+    const genAI = new generative_ai_1.GoogleGenerativeAI(GEMINI_API);
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     const prompt = (0, prompt_1.getReviewSummaryPrompt)(reviews);
     try {

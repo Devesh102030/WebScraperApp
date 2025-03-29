@@ -5,8 +5,10 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { getReviewSummaryPrompt } from "./prompt";
 import dotenv from "dotenv"
 
+if (process.env.NODE_ENV !== "production") {
+    dotenv.config();
+}
 
-dotenv.config();
 const GEMINI_API: string = process.env.GEMINI_API || "";
 
 puppeteer.use(StealthPlugin());
@@ -19,6 +21,9 @@ interface ReviewSummaryType {
 }
 
 async function getReviewSummary(link: string) {
+    console.log(process.env.GEMINI_API);
+    
+    console.log(GEMINI_API);
     const browser = await puppeteer.launch({headless: false});
     const page = await browser.newPage();
     let reviewCount = 0;
@@ -76,7 +81,7 @@ async function getReviewSummary(link: string) {
 }
 
 async function aiCall(reviews: string[]) {
-    const genAI = new GoogleGenerativeAI("AIzaSyBRtWxwfTSS_iPAa1mb7ZsP1dsLi0iUDug");
+    const genAI = new GoogleGenerativeAI(GEMINI_API);
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     const prompt = getReviewSummaryPrompt(reviews);
     try{
