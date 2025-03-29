@@ -3,6 +3,11 @@ import puppeteer from "puppeteer-extra";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { getReviewSummaryPrompt } from "./prompt";
+import dotenv from "dotenv"
+
+
+dotenv.config();
+const GEMINI_API: string = process.env.GEMINI_API || "";
 
 puppeteer.use(StealthPlugin());
 
@@ -71,7 +76,7 @@ async function getReviewSummary(link: string) {
 }
 
 async function aiCall(reviews: string[]) {
-    const genAI = new GoogleGenerativeAI("AIzaSyAU5dtpb83lzs8qeg5PKlarEzJFlqamMY0");
+    const genAI = new GoogleGenerativeAI("AIzaSyBRtWxwfTSS_iPAa1mb7ZsP1dsLi0iUDug");
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     const prompt = getReviewSummaryPrompt(reviews);
     try{
@@ -80,7 +85,7 @@ async function aiCall(reviews: string[]) {
         return JSON.parse(summary.replace(/```json\n|\n```/g, "")) as ReviewSummaryType;
     }
     catch(error){
-        console.log("Error Occured", Error);
+        console.log("Error Occured", error);
     }
 }
 
@@ -170,7 +175,10 @@ export async function getDetails(productURL: string){
             details.map(detail => (detail as HTMLElement).textContent?.trim() || "")
         );
 
-        let combineDetails = [];
+        let combineDetails: {
+            OfferName: string;
+            OfferDetail: string;
+        }[] = [];
         const length = Math.min(offers.length,details.length)
         for(let i=0; i<length; i++){
             combineDetails.push({
