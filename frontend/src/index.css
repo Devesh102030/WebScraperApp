@@ -1,0 +1,377 @@
+/* Base styles */
+:root {
+  --primary-color: #3b82f6;
+  --primary-hover: #2563eb;
+  --primary-active: #1d4ed8;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-900: #111827;
+  --purple-50: #faf5ff;
+  --purple-600: #9333ea;
+  --purple-700: #7e22ce;
+  --purple-900: #581c87;
+  --green-50: #f0fdf4;
+  --green-600: #16a34a;
+  --green-700: #15803d;
+  --green-900: #14532d;
+  --blue-50: #eff6ff;
+  --blue-600: #2563eb;
+  --blue-700: #1d4ed8;
+  --blue-900: #1e3a8a;
+  --red-50: #fef2f2;
+  --red-700: #b91c1c;
+  --red-900: #7f1d1d;
+  --yellow-400: #facc15;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* Layout */
+.container {
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, var(--gray-50), var(--gray-100));
+  padding: 3rem 1rem;
+}
+
+.content {
+  max-width: 56rem;
+  margin: 0 auto;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.header h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 1rem;
+}
+
+.header p {
+  color: var(--gray-600);
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+/* Input Section */
+.input-section {
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.input-wrapper {
+  width: 92%;
+  position: relative;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  padding-right: 3rem;
+  border: 1px solid var(--gray-300);
+  border-radius: 0.5rem;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.input-wrapper input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.input-wrapper svg {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray-400);
+}
+
+.submit-button {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  color: white;
+  background-color: var(--primary-color);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submit-button:hover {
+  background-color: var(--primary-hover);
+}
+
+.submit-button:active {
+  background-color: var(--primary-active);
+}
+
+.submit-button:disabled {
+  background-color: var(--gray-400);
+  cursor: not-allowed;
+}
+
+/* Results Section */
+.results {
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+}
+
+.results > * + * {
+  margin-top: 2rem;
+}
+
+/* Product Title */
+.product-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--gray-900);
+  margin-bottom: 1rem;
+}
+
+/* Image Slider */
+.slider-container {
+  position: relative;
+  aspect-ratio: 16/9;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.slider {
+  display: flex;
+  height: 100%;
+  transition: transform 0.3s ease-in-out;
+}
+
+.slide {
+  flex-shrink: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.slider-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.8);
+  padding: 0.5rem;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.slider-nav:hover {
+  background: white;
+}
+
+.slider-nav.prev {
+  left: 0.5rem;
+}
+
+.slider-nav.next {
+  right: 0.5rem;
+}
+
+.slider-dots {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+}
+
+.dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--gray-400);
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.dot.active {
+  width: 1rem;
+  border-radius: 0.25rem;
+  background: var(--primary-color);
+}
+
+/* Product Details Grid */
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .details-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.detail-card {
+  background: var(--gray-50);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.detail-card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.detail-card-header svg {
+  margin-right: 0.5rem;
+}
+
+.detail-card-header h3 {
+  font-weight: 500;
+  color: var(--gray-700);
+}
+
+.detail-card .value {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.detail-card .subvalue {
+  font-size: 0.875rem;
+  color: var(--gray-500);
+}
+
+/* Bank Offers */
+.offers-section {
+  border-top: 1px solid var(--gray-300);
+  padding-top: 1.5rem;
+}
+
+.offer-card {
+  background: var(--purple-50);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-top: 0.75rem;
+}
+
+.offer-card .title {
+  font-weight: 500;
+  color: var(--purple-900);
+}
+
+.offer-card .detail {
+  color: var(--purple-700);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* AI Review Analysis */
+.review-analysis {
+  border-top: 1px solid var(--gray-300);
+  padding-top: 1.5rem;
+}
+
+.sentiment-card {
+  background: var(--blue-50);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.praises-card {
+  background: var(--green-50);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.complaints-card {
+  background: var(--red-50);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.summary-card {
+  background: var(--gray-50);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+/* Lists */
+.list {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+}
+
+.list li {
+  margin-top: 0.5rem;
+  color: var(--gray-700);
+}
+
+/* Section Headers */
+.section-header {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--gray-900);
+  margin-bottom: 1rem;
+}
+
+/* No Image Placeholder */
+.no-image {
+  text-align: center;
+  padding: 2rem 0;
+  color: var(--gray-500);
+}
+
+.no-image svg {
+  margin: 0 auto 0.5rem;
+}
+
+/* Manufacturer Images */
+.manufacturer-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.manufacturer-image {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.manufacturer-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 16/9;
+  transition: transform 0.2s;
+}
+
+.manufacturer-image img:hover {
+  transform: scale(1.05);
+}
