@@ -1,17 +1,17 @@
 FROM ghcr.io/puppeteer/puppeteer:24.4.0
 
-# Switch to root to install packages
+# Switch to root user to install packages
 USER root
 
-# Install dependencies, including Google Chrome
-RUN apt update && apt install -y google-chrome-stable
+# Install Chromium instead of Google Chrome
+RUN apt update && apt install -y chromium
 
-# Switch back to the non-root user
+# Switch back to non-root user for security
 USER pptruser
 
 # Set environment variables for Puppeteer
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
-    PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
 # Set working directory
 WORKDIR /usr/src/app
@@ -25,4 +25,5 @@ COPY . .
 
 # Run the application
 CMD ["node", "dist/index.js"]
+
 
