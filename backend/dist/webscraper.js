@@ -1,4 +1,37 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -72,47 +105,36 @@ async function aiCall(reviews) {
     }
 }
 async function getDetails(productURL) {
-    // const browser = await puppeteer_extra_1.default.launch(); //opnes a browser
-    const browser = await puppeteer.launch({
-        executablePath: process.env.CHROME_PATH || '/opt/render/.cache/puppeteer/chrome/linux-134.0.6998.35/chrome-linux64/chrome',
-        headless: true, // Run in headless mode
+    const browser = await puppeteer_extra_1.default.launch({
+        executablePath: process.env.CHROME_PATH || (await Promise.resolve().then(() => __importStar(require('puppeteer')))).executablePath(),
+        headless: true,
         args: ["--no-sandbox", "--disable-setuid-sandbox"]
-    });
-    
+    }); //opnes a browser
     const page = await browser.newPage(); //creates a new page in browser
     await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
     await page.setViewport({ width: 1280, height: 800 });
     await page.setExtraHTTPHeaders({ "Accept-Language": "en-US,en;q=0.9" });
-
     //const productURL = "https://www.amazon.in/Xiaomi-inches-Vision-Google-L43MA-AUIN/dp/B0DBRL1SYQ/ref=sr_1_1_sspa?crid=2V4RAZRA2IHNW&dib=eyJ2IjoiMSJ9.Plzxr4Ip68fLl1AwpKjKO5IV_IjP3U_GkeCXHQNlerysLDVd7DHmRFVOdlpgU4bgmOci4Kd6HmxQwRy1tR4CMf7X0KvZHoSbRMgEtnGn9YHbBpi4O-QgCmRWo7wQRhHR6ZnZuzPUSASCQVPG_6pK9jDPULvP_TH_oGIn69fuYda1o2H-senLplBwz6UhDOXukVQ-Q-AYPGDwH35mLTKKMxb1j5z03oNLJ9whXMcfjTg.ad6EfkBc5K1n8ksq3o1rfDS2JnRZBHWQLqTrE1MkNGU&dib_tag=se&keywords=led&nsdOptOutParam=true&qid=1742767674&sprefix=led%2Caps%2C238&sr=8-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&psc=1"
     await page.goto(productURL, { waitUntil: "networkidle2" });
-
     const product = {};
-
     const title = await page.evaluate(() => document.title);
     product.Title = title;
     console.log("Title: ", title);
-
     const productName = await page.$eval('#title span', el => el.textContent?.trim());
     product.ProductName = productName;
     console.log("Product Name: ", productName);
-
     const currprice = await page.$eval('.a-price-whole', el => el.textContent?.trim());
     product.CurrentPrice = currprice;
     console.log("Current Price: ", currprice);
-
     const originalPrice = await page.$eval('.a-price.a-text-price .a-offscreen', (el) => el.textContent?.trim() || null);
     product.OriginalPrice = originalPrice;
     console.log("Original Price (MRP):", originalPrice);
-
     const rating = await page.$eval('.a-icon-alt', el => el.textContent?.trim());
     product.Rating = rating;
     console.log("Rating: ", rating);
-
     const reviewCount = await page.$eval('#acrCustomerReviewText', el => el.textContent?.trim());
     product.ReviewCount = reviewCount;
     console.log("Review Count: ", reviewCount);
-
     //#altImages img
     const imageUrls = await page.$$eval("#altImages img", (imgs) => imgs.map(img => img.getAttribute("src") || img.currentSrc));
     const highResUrl = [];
@@ -137,15 +159,12 @@ async function getDetails(productURL) {
         }
         return combineDetails;
     };
-    
     const bankOffersData = await bankOffers();
     product.BankOffers = bankOffersData;
     console.log("Bank Offers: ", bankOffersData);
-
     const aboutItem = await page.$$eval(".a-spacing-mini > .a-list-item", (infos) => infos.map(info => info.textContent?.trim() || ""));
     product.AboutItem = aboutItem;
     console.log("About Item: ", aboutItem);
-
     const TechnicalDetails = await page.$$eval("#productDetails_techSpec_section_1 .a-color-secondary.a-size-base.prodDetSectionEntry", (techDetails) => techDetails.map(techDetail => techDetail.textContent?.trim()));
     const TechnicalDetailsInfo = await page.$$eval("#productDetails_techSpec_section_1 .a-size-base.prodDetAttrValue", (techDetails) => techDetails.map(techDetail => techDetail.textContent?.trim()));
     let TechInfo = [];
@@ -154,7 +173,6 @@ async function getDetails(productURL) {
     }
     product.TechnicalDetails = TechInfo;
     console.log("Technical Details: ", TechInfo);
-
     const manufactuerImgs = await page.$$eval('div[class*="aplus"], div[id*=aplus] img', //lookout for the divs having aplus in their class or id
     (images) => images.map(img => img.getAttribute('src') || img.getAttribute('data-src')));
     const noscriptImages = await page.$$eval('div[class*="aplus"], div[id*="aplus"] noscript', (noscripts) => noscripts.map(ns => {
@@ -179,7 +197,6 @@ async function getDetails(productURL) {
     const reviews = await page.$$eval('.review .review-text', el => el.map(rev => rev.textContent?.trim() || ""));
     product.ReviewSummary = await aiCall(reviews);
     console.log(product.ReviewSummary);
-    
     await browser.close(); //closes the headless browser
     return product;
 }
