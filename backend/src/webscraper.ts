@@ -5,6 +5,8 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { getReviewSummaryPrompt } from "./prompt";
 import dotenv from "dotenv"
 
+dotenv.config();
+
 const GEMINI_API: string = process.env.GEMINI_API || "";
 
 puppeteer.use(StealthPlugin());
@@ -91,7 +93,17 @@ async function aiCall(reviews: string[]) {
 }
 
 export async function getDetails(productURL: string){
-    const browser = await puppeteer.launch(); //opnes a browser
+    const browser = await puppeteer.launch({
+        args: [
+            "--disable-setuid-sandbox",
+            "--no-sandbox",
+            "--single-process",
+            "--no-zygote"
+        ],
+        executablePath: process.env.NODE_ENV === 'production'
+        ? process.env.PUPPETEER_EXECUTABLE_PATH
+        : puppeteer.executablePath(),
+    }); //opnes a browser
     const page = await browser.newPage(); //creates a new page in browser
 
     await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");

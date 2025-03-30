@@ -9,6 +9,8 @@ const puppeteer_extra_1 = __importDefault(require("puppeteer-extra"));
 const puppeteer_extra_plugin_stealth_1 = __importDefault(require("puppeteer-extra-plugin-stealth"));
 const generative_ai_1 = require("@google/generative-ai");
 const prompt_1 = require("./prompt");
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const GEMINI_API = process.env.GEMINI_API || "";
 puppeteer_extra_1.default.use((0, puppeteer_extra_plugin_stealth_1.default)());
 async function getReviewSummary(link) {
@@ -68,7 +70,17 @@ async function aiCall(reviews) {
     }
 }
 async function getDetails(productURL) {
-    const browser = await puppeteer_extra_1.default.launch(); //opnes a browser
+    const browser = await puppeteer_extra_1.default.launch({
+        args: [
+            "--disable-setuid-sandbox",
+            "--no-sandbox",
+            "--single-process",
+            "--no-zygote"
+        ],
+        executablePath: process.env.NODE_ENV === 'production'
+            ? process.env.PUPPETEER_EXECUTABLE_PATH
+            : puppeteer_extra_1.default.executablePath(),
+    }); //opnes a browser
     const page = await browser.newPage(); //creates a new page in browser
     await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
     await page.setViewport({ width: 1280, height: 800 });
