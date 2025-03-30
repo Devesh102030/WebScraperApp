@@ -96,15 +96,10 @@ async function aiCall(reviews: string[]) {
 
 export async function getDetails(productURL: string){
     const browser = await puppeteer.launch({
-        executablePath: process.env.CHROME_PATH || "/usr/bin/google-chrome-stable",
-        headless: "new" as any,
-        args: [
-            "--no-sandbox",
-            "--disable-setuid-sandbox",
-            "--disable-gpu",
-            "--disable-dev-shm-usage"
-        ]
-    }); //opnes a browser
+        executablePath: process.env.CHROME_PATH || '/usr/bin/google-chrome-stable',
+        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
+        headless: 'new' as any
+      }); //opnes a browser
     const page = await browser.newPage(); //creates a new page in browser
 
     await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");

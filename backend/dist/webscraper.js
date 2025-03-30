@@ -73,14 +73,9 @@ async function aiCall(reviews) {
 }
 async function getDetails(productURL) {
     const browser = await puppeteer_extra_1.default.launch({
-        executablePath: process.env.CHROME_PATH || "/usr/bin/google-chrome-stable",
-        headless: "new",
-        args: [
-            "--no-sandbox",
-            "--disable-setuid-sandbox",
-            "--disable-gpu",
-            "--disable-dev-shm-usage"
-        ]
+        executablePath: process.env.CHROME_PATH || '/usr/bin/google-chrome-stable',
+        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
+        headless: 'new'
     }); //opnes a browser
     const page = await browser.newPage(); //creates a new page in browser
     await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
