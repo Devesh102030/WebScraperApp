@@ -80,6 +80,7 @@ async function getDetails(productURL) {
         executablePath: process.env.NODE_ENV === 'production'
             ? process.env.PUPPETEER_EXECUTABLE_PATH
             : puppeteer_extra_1.default.executablePath(),
+        headless: true,
     }); //opnes a browser
     const page = await browser.newPage(); //creates a new page in browser
     await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");

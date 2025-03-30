@@ -103,6 +103,7 @@ export async function getDetails(productURL: string){
         executablePath: process.env.NODE_ENV === 'production'
         ? process.env.PUPPETEER_EXECUTABLE_PATH
         : puppeteer.executablePath(),
+        headless: true,
     }); //opnes a browser
     const page = await browser.newPage(); //creates a new page in browser
 
