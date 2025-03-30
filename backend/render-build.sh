@@ -1,8 +1,9 @@
 #!/bin/bash
+set -e  # Exit immediately if a command fails
+
 # Install Chrome for Puppeteer
-curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-sudo apt update
-sudo apt install -y chromium-browser
+apt update && apt install -y chromium-browser || true
 
 # Install Puppeteer dependencies
 npx puppeteer browsers install chrome
+
