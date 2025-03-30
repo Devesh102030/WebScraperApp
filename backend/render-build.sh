@@ -1,9 +1,5 @@
 #!/bin/bash
-set -e  # Exit immediately if a command fails
+set -e  # Exit if any command fails
 
-# Install Chrome for Puppeteer
-apt update && apt install -y chromium-browser || true
-
-# Install Puppeteer dependencies
+# Ensure Puppeteer installs Chrome
 npx puppeteer browsers install chrome
-
