@@ -23,7 +23,6 @@ RUN npm ci
 # Copy the rest of the app files
 COPY . .
 
-# Run the application
 CMD ["node", "dist/index.js"]
 
 
