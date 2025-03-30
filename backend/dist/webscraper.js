@@ -59,7 +59,7 @@ async function getReviewSummary(link) {
     }
 }
 async function aiCall(reviews) {
-    const genAI = new generative_ai_1.GoogleGenerativeAI(GEMINI_API);
+    const genAI = new generative_ai_1.GoogleGenerativeAI("AIzaSyBRtWxwfTSS_iPAa1mb7ZsP1dsLi0iUDug");
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     const prompt = (0, prompt_1.getReviewSummaryPrompt)(reviews);
     try {

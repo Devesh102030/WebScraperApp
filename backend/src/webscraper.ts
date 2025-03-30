@@ -81,7 +81,7 @@ async function getReviewSummary(link: string) {
 }
 
 async function aiCall(reviews: string[]) {
-    const genAI = new GoogleGenerativeAI(GEMINI_API);
+    const genAI = new GoogleGenerativeAI("AIzaSyBRtWxwfTSS_iPAa1mb7ZsP1dsLi0iUDug");
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     const prompt = getReviewSummaryPrompt(reviews);
     try{
