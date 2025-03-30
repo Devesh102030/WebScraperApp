@@ -9,10 +9,6 @@ const puppeteer_extra_1 = __importDefault(require("puppeteer-extra"));
 const puppeteer_extra_plugin_stealth_1 = __importDefault(require("puppeteer-extra-plugin-stealth"));
 const generative_ai_1 = require("@google/generative-ai");
 const prompt_1 = require("./prompt");
-const dotenv_1 = __importDefault(require("dotenv"));
-if (process.env.NODE_ENV !== "production") {
-    dotenv_1.default.config();
-}
 const GEMINI_API = process.env.GEMINI_API || "";
 puppeteer_extra_1.default.use((0, puppeteer_extra_plugin_stealth_1.default)());
 async function getReviewSummary(link) {
@@ -72,17 +68,23 @@ async function aiCall(reviews) {
     }
 }
 async function getDetails(productURL) {
-    const browser = await puppeteer_extra_1.default.launch({
-        executablePath: process.env.CHROME_PATH || '/usr/bin/google-chrome-stable',
-        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
-        headless: 'new'
-    }); //opnes a browser
+    const browser = await puppeteer_extra_1.default.launch(); //opnes a browser
     const page = await browser.newPage(); //creates a new page in browser
     await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
     await page.setViewport({ width: 1280, height: 800 });
     await page.setExtraHTTPHeaders({ "Accept-Language": "en-US,en;q=0.9" });
     //const productURL = "https://www.amazon.in/Xiaomi-inches-Vision-Google-L43MA-AUIN/dp/B0DBRL1SYQ/ref=sr_1_1_sspa?crid=2V4RAZRA2IHNW&dib=eyJ2IjoiMSJ9.Plzxr4Ip68fLl1AwpKjKO5IV_IjP3U_GkeCXHQNlerysLDVd7DHmRFVOdlpgU4bgmOci4Kd6HmxQwRy1tR4CMf7X0KvZHoSbRMgEtnGn9YHbBpi4O-QgCmRWo7wQRhHR6ZnZuzPUSASCQVPG_6pK9jDPULvP_TH_oGIn69fuYda1o2H-senLplBwz6UhDOXukVQ-Q-AYPGDwH35mLTKKMxb1j5z03oNLJ9whXMcfjTg.ad6EfkBc5K1n8ksq3o1rfDS2JnRZBHWQLqTrE1MkNGU&dib_tag=se&keywords=led&nsdOptOutParam=true&qid=1742767674&sprefix=led%2Caps%2C238&sr=8-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&psc=1"
-    await page.goto(productURL, { waitUntil: "networkidle2" });
+    try {
+        await page.goto(productURL, {
+            waitUntil: "networkidle2",
+            timeout: 30000
+        });
+    }
+    catch (error) {
+        console.error("Navigation failed:", error);
+        await browser.close();
+        throw new Error("Failed to navigate to product page");
+    }
     const product = {};
     const title = await page.evaluate(() => document.title);
     product.Title = title;
