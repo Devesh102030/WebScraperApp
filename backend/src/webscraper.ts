@@ -157,15 +157,15 @@ export async function getDetails(productURL: string){
     // product.ProductName = productName;
     // console.log("Product Name: ", productName);
 
-    const currprice: out = await page.$eval('.a-price.aok-align-center.priceToPay .a-price-whole', el => el.textContent?.trim());
-    product.CurrentPrice = currprice;
-    console.log("Current Price: ", currprice);
+    // const currprice: out = await page.$eval('.a-price.aok-align-center.priceToPay .a-price-whole', el => el.textContent?.trim());
+    // product.CurrentPrice = currprice;
+    // console.log("Current Price: ", currprice);
 
-    // const originalPrice: string | null = await page.$eval('.a-price.a-text-price .a-offscreen', (el: Element) =>
-    //     el.textContent?.trim() || null
-    // );
-    // product.OriginalPrice = originalPrice;
-    // console.log("Original Price (MRP):", originalPrice);
+    const originalPrice: string | null = await page.$eval('.a-price.a-text-price .a-offscreen', (el: Element) =>
+        el.textContent?.trim() || null
+    );
+    product.OriginalPrice = originalPrice;
+    console.log("Original Price (MRP):", originalPrice);
         
     const rating: out = await page.$eval('.a-icon-alt', el => el.textContent?.trim());
     product.Rating = rating;
