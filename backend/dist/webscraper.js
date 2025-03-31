@@ -70,18 +70,19 @@ async function aiCall(reviews) {
     }
 }
 async function getDetails(productURL) {
-    const browser = await puppeteer_extra_1.default.launch({
-        args: [
-            "--disable-setuid-sandbox",
-            "--no-sandbox",
-            "--single-process",
-            "--no-zygote"
-        ],
-        executablePath: process.env.NODE_ENV === 'production'
-            ? process.env.PUPPETEER_EXECUTABLE_PATH
-            : puppeteer_extra_1.default.executablePath(),
-        headless: true,
-    }); //opnes a browser
+    // const browser = await puppeteer.launch({
+    //     args: [
+    //         "--disable-setuid-sandbox",
+    //         "--no-sandbox",
+    //         "--single-process",
+    //         "--no-zygote"
+    //     ],
+    //     executablePath: process.env.NODE_ENV === 'production'
+    //     ? process.env.PUPPETEER_EXECUTABLE_PATH
+    //     : puppeteer.executablePath(),
+    //     headless: true,
+    // }); //opnes a browser
+    const browser = await puppeteer_extra_1.default.launch();
     const page = await browser.newPage(); //creates a new page in browser
     await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
     await page.setViewport({ width: 1280, height: 800 });
@@ -102,10 +103,10 @@ async function getDetails(productURL) {
     const title = await page.evaluate(() => document.title);
     product.Title = title;
     console.log("Title: ", title);
-    // const productName: out = await page.$eval('#title span', el => el.textContent?.trim());
+    // const productName: out = await page.$eval('#title_feature_div #productTitle', el => el.textContent?.trim());
     // product.ProductName = productName;
     // console.log("Product Name: ", productName);
-    const currprice = await page.$eval('.a-price-whole', el => el.textContent?.trim());
+    const currprice = await page.$eval('.a-price.aok-align-center.priceToPay .a-price-whole', el => el.textContent?.trim());
     product.CurrentPrice = currprice;
     console.log("Current Price: ", currprice);
     const originalPrice = await page.$eval('.a-price.a-text-price .a-offscreen', (el) => el.textContent?.trim() || null);

@@ -93,18 +93,21 @@ async function aiCall(reviews: string[]) {
 }
 
 export async function getDetails(productURL: string){
-    const browser = await puppeteer.launch({
-        args: [
-            "--disable-setuid-sandbox",
-            "--no-sandbox",
-            "--single-process",
-            "--no-zygote"
-        ],
-        executablePath: process.env.NODE_ENV === 'production'
-        ? process.env.PUPPETEER_EXECUTABLE_PATH
-        : puppeteer.executablePath(),
-        headless: true,
-    }); //opnes a browser
+    // const browser = await puppeteer.launch({
+    //     args: [
+    //         "--disable-setuid-sandbox",
+    //         "--no-sandbox",
+    //         "--single-process",
+    //         "--no-zygote"
+    //     ],
+    //     executablePath: process.env.NODE_ENV === 'production'
+    //     ? process.env.PUPPETEER_EXECUTABLE_PATH
+    //     : puppeteer.executablePath(),
+    //     headless: true,
+    // }); //opnes a browser
+
+    const browser = await puppeteer.launch();
+
     const page = await browser.newPage(); //creates a new page in browser
 
     await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
@@ -150,11 +153,11 @@ export async function getDetails(productURL: string){
     product.Title = title;
     console.log("Title: ",title);
 
-    const productName: out = await page.$eval('#title span', el => el.textContent?.trim());
-    product.ProductName = productName;
-    console.log("Product Name: ", productName);
+    // const productName: out = await page.$eval('#title_feature_div #productTitle', el => el.textContent?.trim());
+    // product.ProductName = productName;
+    // console.log("Product Name: ", productName);
 
-    const currprice: out = await page.$eval('.a-price-whole', el => el.textContent?.trim());
+    const currprice: out = await page.$eval('.a-price.aok-align-center.priceToPay .a-price-whole', el => el.textContent?.trim());
     product.CurrentPrice = currprice;
     console.log("Current Price: ", currprice);
 
