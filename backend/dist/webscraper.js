@@ -102,9 +102,9 @@ async function getDetails(productURL) {
     const title = await page.evaluate(() => document.title);
     product.Title = title;
     console.log("Title: ", title);
-    const productName = await page.$eval('#title span', el => el.textContent?.trim());
-    product.ProductName = productName;
-    console.log("Product Name: ", productName);
+    // const productName: out = await page.$eval('#title span', el => el.textContent?.trim());
+    // product.ProductName = productName;
+    // console.log("Product Name: ", productName);
     const currprice = await page.$eval('.a-price-whole', el => el.textContent?.trim());
     product.CurrentPrice = currprice;
     console.log("Current Price: ", currprice);
