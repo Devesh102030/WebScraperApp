@@ -109,9 +109,11 @@ async function getDetails(productURL) {
     const currprice = await page.$eval('.a-price.aok-align-center.priceToPay .a-price-whole', el => el.textContent?.trim());
     product.CurrentPrice = currprice;
     console.log("Current Price: ", currprice);
-    const originalPrice = await page.$eval('.a-price.a-text-price .a-offscreen', (el) => el.textContent?.trim() || null);
-    product.OriginalPrice = originalPrice;
-    console.log("Original Price (MRP):", originalPrice);
+    // const originalPrice: string | null = await page.$eval('.a-price.a-text-price .a-offscreen', (el: Element) =>
+    //     el.textContent?.trim() || null
+    // );
+    // product.OriginalPrice = originalPrice;
+    // console.log("Original Price (MRP):", originalPrice);
     const rating = await page.$eval('.a-icon-alt', el => el.textContent?.trim());
     product.Rating = rating;
     console.log("Rating: ", rating);
