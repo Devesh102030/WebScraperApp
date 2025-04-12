@@ -83,7 +83,7 @@ function App() {
           <div className="results">
             {/* Product Name */}
             <h2 className="product-title">
-              {productDetails.ProductName || "No name available"}
+              {productDetails.ProductName || productDetails.Title || "No name available"}
             </h2>
 
             {/* Image Slider */}

@@ -18,7 +18,7 @@ ${JSON.stringify(reviews, null, 2)}
 ### **Output Format (Example JSON Structure):**
 \`\`\`json
 {
-  "overall_sentiment": "<positive | neutral | negative>",
+  "overall_sentiment": "<Positive | Neutral | Negative>",
   "common_praises": ["<key positive points>"],
   "common_complaints": ["<key negative points>"],
   "summary": "<brief summary of product quality, features, and user experience>"
