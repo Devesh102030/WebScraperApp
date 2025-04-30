@@ -1,21 +1,21 @@
-# 🕷️ Web Scraper with React Frontend
+# Web Scraper with React Frontend
 
 This project is a full-stack web scraping app with a **Node.js + Puppeteer backend** and a **React frontend**. The backend performs web scraping, and the frontend displays the extracted data.
 
-## 🚀 Features
+## Features
 
-- 🔍 Scrapes data using Puppeteer
-- ⚙️ Built with Node.js and TypeScript
-- 🖥️ Interactive UI built with React
-- 🔄 Full-stack integration: scraping & display in one app
+-  Scrapes data using Puppeteer
+-  Built with Node.js and TypeScript
+-  Interactive UI built with React
+-  Full-stack integration: scraping & display in one app
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Frontend**: React + Vite + TypeScript
 - **Backend**: Node.js + Puppeteer + Express
 - **Others**: dotenv, Axios
 
-## 📦 Installation
+## Installation
 
 Clone the repository and install dependencies for both frontend and backend:
 
